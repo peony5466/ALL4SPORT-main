@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CommandeController!{% endblock %}
+
+{% block body %}
+<P>Votre panier est vide</P>
+{% for produit in produits %}
+
+{#<button onclick "<a href={{ path('app_detailsproduits', {'id': produit.id}) }}></a>">ajouter au panier</button>#}
+{% endfor %}
+{% endblock %}

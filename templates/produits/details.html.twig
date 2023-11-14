@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProduitsController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+{#<header>
+<nav class="onglet">
+  <a class="acceuil" href="#">Acceuil</a>
+  <a class="rayon" href="#">Rayon</a>
+  <a class="panier" href="{{ path('app_commande') }}">Panier</a>
+  <a class="produits" href="{{ path('app_acceuil') }}">Produits</a>
+  <ul>
+</nav>
+</ul>
+</header>#}
+
+<div class="example-wrapper">
+
+  
+<h1>Détails du produit</h1>
+<p>Nom : {{ produit.nomproduit }}</p>
+<p>Prix : {{ produit.prixproduit }}</p>
+<p>Lieu de disponibilité : {{ produit.lieuproduit }}</p>
+<div class="produit-photos">
+    {% if photos is not empty %}
+        {% for photo in photos %}
+            <img src="{{ asset('images/' ~ produit.getFkRayon().libelle ~ '/' ~ photo.libelle) }}" alt="Image Produit">
+        {% endfor %}
+    {% else %}
+        <p>:no image</p>
+    {% endif %}
+
+<button onclick><a href="{{ path('app_commande', {'id': produit.id}) }}">ajouter au panier</a></button>
+{#<p>Quantité disponible : {{ produits.quantitéproduit }}</p>#}
+
+
+
+
+
+
+    
+    
+{% endblock %}
+
+
