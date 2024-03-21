@@ -33,9 +33,23 @@ class Produits
     #[ORM\OneToMany(mappedBy: 'fk_produit', targetEntity: Photo::class)]
     private Collection $photos;
 
+    #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'fk_produits')]
+    private Collection $commandes;
+
+    #[ORM\ManyToMany(targetEntity: Commande::class, inversedBy: 'produits')]
+    private Collection $fk_commande;
+
+    // #[ORM\ManyToMany(targetEntity: commande::class, inversedBy: 'produits')]
+    // private Collection $fk_produits;
+
+    // #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'fk_produits')]
+    // private Collection $commandes;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+        $this->fk_commande = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,7 +129,6 @@ class Produits
     {
         if (!$this->photos->contains($photo)) {
             $this->photos->add($photo);
-            $photo->setFkProduit($this);
         }
 
         return $this;
@@ -129,6 +142,62 @@ class Produits
                 $photo->setFkProduit(null);
             }
         }
+
+        return $this;
+    }
+
+
+
+
+
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->addFkProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            $commande->removeFkProduit($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getFkCommande(): Collection
+    {
+        return $this->fk_commande;
+    }
+
+    public function addFkCommande(Commande $fkCommande): static
+    {
+        if (!$this->fk_commande->contains($fkCommande)) {
+            $this->fk_commande->add($fkCommande);
+        }
+
+        return $this;
+    }
+
+    public function removeFkCommande(Commande $fkCommande): static
+    {
+        $this->fk_commande->removeElement($fkCommande);
 
         return $this;
     }

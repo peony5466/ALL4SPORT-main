@@ -39,12 +39,30 @@ class ProduitsController extends AbstractController
         $produit = $ProduitsRepository->find($id);
     
         $photos = $produit->getPhotos();
-        $rayon = $produit->getFkRayon();
+        // $rayon = $produit->getFkRayon();
         return $this->render('produits/details.html.twig', [
             'produit' => $produit,
             'photos' => $photos,
-            'rayon' => $rayon 
+            // 'rayon' => $rayon 
             
+        ]);
+    }
+    #[Route('/addproduit', name: 'add_produit')]
+    public function add(Request $request, EntityManagerInterface $em): Response
+    {
+        $produit = new produit();
+        $produit->setNom($this->getNom());
+        $produit->setPrix($this->getPrix());
+        $commande->handleRequest($request);
+        if ($commande->isSubmitted() && $commande->isValid()) {
+            $produit = $commande->getData();
+            // on sauvegarde en bdd
+            $em->persist($produit);
+            $em->flush(); // Execute en bdd les requetes sql (insert, update)
+            return $this->redirectToRoute('app_commande');
+        }
+        return $this->render('produit/addproduit.html.twig', [
+            'commande' => $commande
         ]);
     }
     

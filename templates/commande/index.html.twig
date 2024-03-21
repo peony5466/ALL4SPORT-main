@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CommandeController!{% endblock %}
+
+{% block body %}
+<P></P>
+<main class="container">
+        <section class="row">
+            <div class="col-12">
+                <h1>Panier</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix</th>
+                            <th>Quantité</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+{% for p in data %}
+
+    <tr>
+        <td>{{ p.produit.nomproduit }}</td>
+        <td>{{ p.produit.prixproduit }} €</td>
+        <td>{{ p.quantite }}</td>
+        <td>{{ p.quantite * p.produit.prixproduit}} €</td>
+        <td>
+            <a href="{{ path('app_commande', {id: p.produit.id}) }}" class="btn btn-success">+</a>
+            <a href="{{ path('remove', {id: p.produit.id}) }}" class="btn btn-warning">-</a>
+            <a href="{{ path('delete', {id: p.produit.id}) }}" class="btn btn-danger">Supprimer</a>
+        </td>
+    </tr>                   
+{% else %}
+    <tr>
+        <td colspan="5">Votre panier est vide</td>
+    </tr>    
+{% endfor %}
+                    </tbody>
+                     <tfoot>
+                        <tr>
+                            <td colspan="3">Total</td>
+                            <td>{{ total }} €</td>
+                            <td>
+                                <a href="{{ path('empty') }}" class="btn btn-danger">Vider</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <a href="{{ path('add/commande') }}" class="btn btn-primary">Valider le panier</a>
+            </div>
+
+{% endblock %}

@@ -8,17 +8,6 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-{#<header>
-<nav class="onglet">
-  <a class="acceuil" href="#">Acceuil</a>
-  <a class="rayon" href="#">Rayon</a>
-  <a class="panier" href="{{ path('app_commande') }}">Panier</a>
-  <a class="produits" href="{{ path('app_acceuil') }}">Produits</a>
-  <ul>
-</nav>
-</ul>
-</header>#}
-
 <div class="example-wrapper">
 
   
@@ -35,7 +24,7 @@
         <p>:no image</p>
     {% endif %}
 
-<button onclick><a href="{{ path('app_commande', {'id': produit.id}) }}">ajouter au panier</a></button>
+<button onclick><a href="{{ path('index', {'id': produit.id}) }}">ajouter au panier</a></button>
 {#<p>Quantité disponible : {{ produits.quantitéproduit }}</p>#}
 
 

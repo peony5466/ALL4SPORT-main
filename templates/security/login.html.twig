@@ -1,0 +1,34 @@
+{# templates/security/login.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <h1>Connexion</h1>
+
+
+
+    {# Affichage d'éventuels messages flash de succès #}
+    {% for flashSuccess in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ flashSuccess }}
+        </div>
+    {% endfor %}
+        {# Affichage d'éventuels messages flash d'erreur #}
+    {% for flashError in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ flashError }}
+        </div>
+    {% endfor %}
+
+    {# Affichage d'éventuelles erreurs du formulaire #}
+    {{ form_errors(form) }}
+
+    {# Formulaire de connexion #}
+    {{ form_start(form) }}
+        {{ form_row(form.email) }} 
+        {{ form_row(form.mdp) }}
+        <button type="submit">Connexion</button>
+    {{ form_end(form) }}
+{% endblock %}

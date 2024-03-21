@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
@@ -17,7 +19,20 @@ class Commande
     private ?string $libelle = null;
 
     #[ORM\Column]
-    private ?int $qte_commande = null;
+    private ?int $quantite = null;
+
+    #[ORM\ManyToMany(targetEntity: Produits::class, inversedBy: 'commandes')]
+    private Collection $fk_produits;
+
+    #[ORM\ManyToMany(targetEntity: Produits::class, mappedBy: 'fk_commande')]
+    private Collection $produits;
+
+    public function __construct()
+    {
+        $this->fk_produits = new ArrayCollection();
+        $this->produits = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -36,15 +51,72 @@ class Commande
         return $this;
     }
 
-    public function getQteCommande(): ?int
+    public function getQuantite(): ?int
     {
-        return $this->qte_commande;
+        return $this->quantite;
     }
 
-    public function setQteCommande(int $qte_commande): static
+    public function setQteCommande(int $quantite): static
     {
-        $this->qte_commande = $qte_commande;
+        $this->quantite = $quantite;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Produits>
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    /**
+     * @return Collection<int, Produits>
+     */
+    public function getFkProduits(): Collection
+    {
+        return $this->fk_produits;
+    }
+
+    public function addFkProduit(Produits $fkProduit): static
+    {
+        if (!$this->fk_produits->contains($fkProduit)) {
+            $this->fk_produits->add($fkProduit);
+        }
+
+        return $this;
+    }
+
+    public function removeFkProduit(Produits $fkProduit): static
+    {
+        $this->fk_produits->removeElement($fkProduit);
+
+        return $this;
+    }
+
+    public function addProduit(Produits $produit): static
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->addFkCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produits $produit): static
+    {
+        if ($this->produits->removeElement($produit)) {
+            $produit->removeFkCommande($this);
+        }
+
+        return $this;
+    }
+
+
+
+
+
+
 }
