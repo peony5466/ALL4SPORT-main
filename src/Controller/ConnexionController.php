@@ -46,7 +46,7 @@ class ConnexionController extends AbstractController
                     // Ajouter un message de succès
                     $this->addFlash('success', 'Connexion réussie ! Bienvenue ' . $user->getNom());
                     // Rediriger l'utilisateur vers une page sécurisée
-                    return $this->redirectToRoute('page_securisee');
+                    return $this->redirectToRoute('security/login.html.twig');
                 } else {
                     // Mot de passe incorrect
                     $this->addFlash('error', 'Mot de passe incorrect');

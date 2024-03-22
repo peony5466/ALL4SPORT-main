@@ -21,11 +21,9 @@ class InscriptionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrer le client dans la base de données sans sécuriser le mot de passe
             $entityManager->persist($client);
             $entityManager->flush();
 
-            // Rediriger vers la page de connexion
             $this->addFlash('success', 'Inscription réussie. Vous pouvez maintenant vous connecter.');
             return $this->redirectToRoute('app_connexion');
         }
